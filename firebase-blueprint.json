@@ -1,0 +1,50 @@
+{
+  "entities": {
+    "Question": {
+      "title": "Question",
+      "description": "A quiz question for the OceanGuard game",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the question (e.g., 'Chai nhựa')"
+        },
+        "image": {
+          "type": "string",
+          "description": "URL of the image associated with the question"
+        },
+        "question": {
+          "type": "string",
+          "description": "The actual question text"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of 4 answer options"
+        },
+        "correct": {
+          "type": "integer",
+          "description": "Index of the correct option (0-3)"
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Explanation of the correct answer"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the question was created"
+        }
+      },
+      "required": ["title", "image", "question", "options", "correct"]
+    }
+  },
+  "firestore": {
+    "questions": {
+      "schema": "Question",
+      "description": "Collection of quiz questions"
+    }
+  }
+}

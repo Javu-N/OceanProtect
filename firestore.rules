@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: questions
+    // Document ID: auto-generated
+    // Fields:
+    //   - title: string (required)
+    //   - image: string (required)
+    //   - question: string (required)
+    //   - options: array of strings (required, size 4)
+    //   - correct: number (required, 0-3)
+    //   - explanation: string (optional)
+    //   - createdAt: timestamp (optional)
+    //
+    // ===============================================================
+
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && 
+        (request.auth.token.email.lower() == "truongkhoa231999@gmail.com" && request.auth.token.email_verified == true);
+    }
+
+    function isValidQuestion(data) {
+      return data.keys().hasAll(['title', 'image', 'question', 'options', 'correct']) &&
+             data.title is string && data.title.size() > 0 && data.title.size() < 100 &&
+             data.image is string && data.image.size() > 0 &&
+             data.question is string && data.question.size() > 0 && data.question.size() < 500 &&
+             data.options is list && data.options.size() == 4 &&
+             data.correct is int && data.correct >= 0 && data.correct <= 3;
+    }
+
+    match /questions/{questionId} {
+      allow read: if true; // Publicly readable for the game
+      allow write: if isAdmin();
+    }
+
+    match /test/connection {
+      allow read: if true;
+    }
+  }
+}
