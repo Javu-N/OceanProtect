@@ -153,30 +153,45 @@ export async function deleteQuestionFromDb(id: string) {
 }
 
 // Initial migration if needed
-export async function migrateDefaultData(defaultData: any[], forceAll = false) {
+export async function migrateDefaultData(defaultData: any[], forceAll = false, retryCount = 0) {
   try {
-    console.log("Starting migration check, forceAll:", forceAll);
+    console.log(`Starting migration check, forceAll: ${forceAll}, attempt: ${retryCount + 1}`);
     const existing = await getQuestions();
 
     if (forceAll || existing.length === 0) {
       console.log(`Migrating ${defaultData.length} default questions to Firestore...`);
       let addedCount = 0;
+      let failedCount = 0;
+
       for (const item of defaultData) {
-        const isDuplicate = existing.some(q => q.question === item.question);
-        if (!isDuplicate) {
-          const { id, ...rest } = item;
-          await addQuestion(rest);
-          addedCount++;
+        try {
+          const isDuplicate = existing.some(q => q.question === item.question);
+          if (!isDuplicate) {
+            const { id, ...rest } = item;
+            await addQuestion(rest);
+            addedCount++;
+            console.log(`✓ Added: ${item.title}`);
+          }
+        } catch (itemError: any) {
+          failedCount++;
+          console.error(`✗ Failed to add ${item.title}:`, itemError?.message);
         }
       }
-      console.log(`Migration complete! Added ${addedCount} new questions.`);
-      return true;
+
+      console.log(`Migration complete! Added ${addedCount}, Failed: ${failedCount}`);
+      return { success: true, addedCount, failedCount };
     } else {
       console.log(`Firestore already has ${existing.length} questions, skipping migration`);
-      return false;
+      return { success: true, addedCount: 0, failedCount: 0 };
     }
-  } catch (error) {
-    console.error("Migration error:", error);
+  } catch (error: any) {
+    console.error("Migration error:", error?.message, error?.code);
+    // Retry once after 1 second if it fails
+    if (retryCount < 1) {
+      console.log("Retrying migration in 1 second...");
+      await new Promise(r => setTimeout(r, 1000));
+      return migrateDefaultData(defaultData, forceAll, retryCount + 1);
+    }
     throw error;
   }
 }
@@ -190,14 +205,18 @@ export async function ensureQuestionsExist(defaultData: any[]) {
 
     if (existing.length === 0) {
       console.log("No questions found, auto-syncing defaults...");
-      await migrateDefaultData(defaultData, true);
+      const result = await migrateDefaultData(defaultData, true);
+
+      // Wait a bit for the writes to propagate
+      await new Promise(r => setTimeout(r, 2000));
+
       const freshQuestions = await getQuestions();
       console.log(`After sync, now have ${freshQuestions.length} questions`);
       return freshQuestions;
     }
     return existing;
-  } catch (error) {
-    console.error("Error ensuring questions exist:", error);
+  } catch (error: any) {
+    console.error("Error ensuring questions exist:", error?.message, error?.code);
     return [];
   }
 }

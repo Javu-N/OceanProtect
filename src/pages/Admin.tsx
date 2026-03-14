@@ -151,18 +151,22 @@ export default function Admin() {
     };
 
     const handleSync = async () => {
-        if (confirm('Bạn có muốn bổ sung thêm các câu hỏi mẫu mới vào hệ thống không?')) {
-            setIsSyncing(true);
-            try {
-                await migrateDefaultData(defaultQuizData, true);
-                showToast('Đã đồng bộ câu hỏi mẫu thành công! ✨');
-                loadQuestions();
-            } catch (error) {
-                console.error('Sync error:', error);
-                showToast('Lỗi khi đồng bộ dữ liệu.', '❌');
-            } finally {
-                setIsSyncing(false);
-            }
+        setIsSyncing(true);
+        try {
+            console.log("Starting manual sync of default data...");
+            const result = await migrateDefaultData(defaultQuizData, true);
+            console.log("Sync result:", result);
+
+            // Wait for Firestore writes to propagate
+            await new Promise(r => setTimeout(r, 2000));
+
+            showToast(`✅ Đã thêm ${result?.addedCount || 0} câu hỏi vào Firebase!`, '✨');
+            loadQuestions();
+        } catch (error: any) {
+            console.error('Sync error:', error);
+            showToast('Lỗi khi đồng bộ dữ liệu. Thử lại sau.', '❌');
+        } finally {
+            setIsSyncing(false);
         }
     };
 
@@ -268,6 +272,30 @@ export default function Admin() {
                 >
                     <span className="text-2xl">{toastIcon}</span>
                     <p className="font-medium">{toastMsg}</p>
+                </div>
+            )}
+
+            {/* Empty Database Alert */}
+            {quizQuestions.length === 0 && (
+                <div className="bg-yellow-50 border-2 border-yellow-400 rounded-xl p-6 mb-8 mx-4">
+                    <div className="flex items-start justify-between">
+                        <div>
+                            <h3 className="text-lg font-bold text-yellow-800 mb-2">⚠️ Firestore trống!</h3>
+                            <p className="text-yellow-700 mb-4">
+                                Cơ sở dữ liệu Firebase của bạn hiện không có câu hỏi nào. Hãy nhấn nút dưới để tự động thêm 15 câu hỏi mẫu.
+                            </p>
+                        </div>
+                        <button
+                            onClick={handleSync}
+                            disabled={isSyncing}
+                            className={`px-6 py-2 rounded-lg font-bold whitespace-nowrap ${isSyncing
+                                ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                                : 'bg-yellow-400 text-yellow-900 hover:bg-yellow-500'
+                                }`}
+                        >
+                            {isSyncing ? '🔄 Đang đồng bộ...' : '✅ Tự động thêm dữ liệu'}
+                        </button>
+                    </div>
                 </div>
             )}
 
