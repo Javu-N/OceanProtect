@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { getQuestions } from '../services/firestoreService';
+import { getQuestions, ensureQuestionsExist } from '../services/firestoreService';
 import { defaultQuizData } from '../data/defaultData';
 
 interface QuizItem {
@@ -26,11 +26,11 @@ export default function Quiz() {
     useEffect(() => {
         const loadQuestions = async () => {
             try {
-                const questions = await getQuestions();
+                const questions = await ensureQuestionsExist(defaultQuizData);
                 setQuizData(
-                    questions.length === 0
-                        ? defaultQuizData.map((q) => ({ ...q, id: q.id.toString() }))
-                        : questions
+                    questions && questions.length > 0
+                        ? questions
+                        : defaultQuizData.map((q) => ({ ...q, id: q.id.toString() }))
                 );
             } catch (error) {
                 console.error('Error loading questions:', error);

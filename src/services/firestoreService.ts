@@ -1,11 +1,11 @@
-import { 
-  collection, 
-  getDocs, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc, 
-  doc, 
-  query, 
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  query,
   orderBy,
   serverTimestamp,
   getDocFromServer
@@ -95,8 +95,9 @@ export async function getQuestions(): Promise<Question[]> {
       ...doc.data()
     } as Question));
   } catch (error) {
-    handleFirestoreError(error, OperationType.LIST, QUESTIONS_COLLECTION);
-    return []; // Never reached due to throw
+    console.error('Error fetching questions:', error);
+    // Return empty array instead of throwing, so the app can fall back to defaults
+    return [];
   }
 }
 
@@ -133,17 +134,38 @@ export async function deleteQuestionFromDb(id: string) {
 
 // Initial migration if needed
 export async function migrateDefaultData(defaultData: any[], forceAll = false) {
-  const existing = await getQuestions();
-  
-  if (forceAll || existing.length === 0) {
-    console.log("Migrating default data to Firestore...");
-    // If forceAll, we only add what's missing by title to avoid duplicates
-    for (const item of defaultData) {
-      const isDuplicate = existing.some(q => q.question === item.question);
-      if (!isDuplicate) {
-        const { id, ...rest } = item;
-        await addQuestion(rest);
+  try {
+    const existing = await getQuestions();
+
+    if (forceAll || existing.length === 0) {
+      console.log("Migrating default data to Firestore...");
+      // If forceAll, we only add what's missing by title to avoid duplicates
+      for (const item of defaultData) {
+        const isDuplicate = existing.some(q => q.question === item.question);
+        if (!isDuplicate) {
+          const { id, ...rest } = item;
+          await addQuestion(rest);
+        }
       }
+      console.log("Migration complete!");
     }
+  } catch (error) {
+    console.error("Migration error:", error);
+  }
+}
+
+// Check if empty and auto-migrate on first load
+export async function ensureQuestionsExist(defaultData: any[]) {
+  try {
+    const existing = await getQuestions();
+    if (existing.length === 0) {
+      console.log("No questions found, auto-syncing defaults...");
+      await migrateDefaultData(defaultData, true);
+      return await getQuestions();
+    }
+    return existing;
+  } catch (error) {
+    console.error("Error ensuring questions exist:", error);
+    return [];
   }
 }

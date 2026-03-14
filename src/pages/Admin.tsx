@@ -8,6 +8,7 @@ import {
     updateQuestion,
     deleteQuestionFromDb,
     migrateDefaultData,
+    ensureQuestionsExist,
     Question,
 } from '../services/firestoreService';
 import { defaultQuizData } from '../data/defaultData';
@@ -51,11 +52,10 @@ export default function Admin() {
 
     const loadQuestions = async () => {
         try {
-            const questions = await getQuestions();
-            setQuizQuestions(
-                questions.length === 0
-                    ? defaultQuizData.map((q) => ({ ...q, id: q.id.toString() }))
-                    : questions
+            const questions = await ensureQuestionsExist(defaultQuizData);
+            setQuizQuestions(questions && questions.length > 0
+                ? questions
+                : defaultQuizData.map((q) => ({ ...q, id: q.id.toString() }))
             );
         } catch (error) {
             console.error('Error loading questions:', error);
