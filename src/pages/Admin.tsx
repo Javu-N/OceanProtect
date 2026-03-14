@@ -79,8 +79,16 @@ export default function Admin() {
             const newOptions = [...formData.options];
             newOptions[idx] = value;
             setFormData({ ...formData, options: newOptions });
-        } else {
-            setFormData({ ...formData, [id]: value });
+        } else if (id === 'image') {
+            setFormData({ ...formData, image: value });
+        } else if (id === 'title') {
+            setFormData({ ...formData, title: value });
+        } else if (id === 'question') {
+            setFormData({ ...formData, question: value });
+        } else if (id === 'correct') {
+            setFormData({ ...formData, correct: value });
+        } else if (id === 'explanation') {
+            setFormData({ ...formData, explanation: value });
         }
     };
 

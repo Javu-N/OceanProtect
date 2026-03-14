@@ -88,80 +88,112 @@ export async function testConnection() {
 
 export async function getQuestions(): Promise<Question[]> {
   try {
+    console.log("Fetching questions from Firestore...");
     const q = query(collection(db, QUESTIONS_COLLECTION), orderBy('createdAt', 'asc'));
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(doc => ({
+    const questions = querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     } as Question));
-  } catch (error) {
-    console.error('Error fetching questions:', error);
-    // Return empty array instead of throwing, so the app can fall back to defaults
+    console.log(`Found ${questions.length} questions in Firestore`);
+    return questions;
+  } catch (error: any) {
+    console.error('Error fetching questions:', error?.code, error?.message);
+    // If collection doesn't exist or is empty, return empty array
+    if (error?.code === 'failed-precondition' || error?.code === 'not-found') {
+      console.log("Collection may not exist yet, returning empty array");
+      return [];
+    }
+    // For other errors, still return empty to not crash the app
     return [];
   }
 }
 
 export async function addQuestion(question: Omit<Question, 'id'>) {
   try {
-    return await addDoc(collection(db, QUESTIONS_COLLECTION), {
+    console.log("Adding question to Firestore...", question.title);
+    const docRef = await addDoc(collection(db, QUESTIONS_COLLECTION), {
       ...question,
       createdAt: serverTimestamp()
     });
-  } catch (error) {
-    handleFirestoreError(error, OperationType.CREATE, QUESTIONS_COLLECTION);
+    console.log("Question added with ID:", docRef.id);
+    return docRef;
+  } catch (error: any) {
+    console.error('Error adding question:', error?.code, error?.message);
+    throw error;
   }
 }
 
 export async function updateQuestion(id: string, question: Partial<Question>) {
   const path = `${QUESTIONS_COLLECTION}/${id}`;
   try {
+    console.log("Updating question:", id);
     const questionRef = doc(db, QUESTIONS_COLLECTION, id);
-    return await updateDoc(questionRef, question);
-  } catch (error) {
-    handleFirestoreError(error, OperationType.UPDATE, path);
+    await updateDoc(questionRef, question);
+    console.log("Question updated successfully");
+    return true;
+  } catch (error: any) {
+    console.error('Error updating question:', error?.code, error?.message);
+    throw error;
   }
 }
 
 export async function deleteQuestionFromDb(id: string) {
   const path = `${QUESTIONS_COLLECTION}/${id}`;
   try {
+    console.log("Deleting question:", id);
     const questionRef = doc(db, QUESTIONS_COLLECTION, id);
-    return await deleteDoc(questionRef);
-  } catch (error) {
-    handleFirestoreError(error, OperationType.DELETE, path);
+    await deleteDoc(questionRef);
+    console.log("Question deleted successfully");
+    return true;
+  } catch (error: any) {
+    console.error('Error deleting question:', error?.code, error?.message);
+    throw error;
   }
 }
 
 // Initial migration if needed
 export async function migrateDefaultData(defaultData: any[], forceAll = false) {
   try {
+    console.log("Starting migration check, forceAll:", forceAll);
     const existing = await getQuestions();
 
     if (forceAll || existing.length === 0) {
-      console.log("Migrating default data to Firestore...");
-      // If forceAll, we only add what's missing by title to avoid duplicates
+      console.log(`Migrating ${defaultData.length} default questions to Firestore...`);
+      let addedCount = 0;
       for (const item of defaultData) {
         const isDuplicate = existing.some(q => q.question === item.question);
         if (!isDuplicate) {
           const { id, ...rest } = item;
           await addQuestion(rest);
+          addedCount++;
         }
       }
-      console.log("Migration complete!");
+      console.log(`Migration complete! Added ${addedCount} new questions.`);
+      return true;
+    } else {
+      console.log(`Firestore already has ${existing.length} questions, skipping migration`);
+      return false;
     }
   } catch (error) {
     console.error("Migration error:", error);
+    throw error;
   }
 }
 
 // Check if empty and auto-migrate on first load
 export async function ensureQuestionsExist(defaultData: any[]) {
   try {
+    console.log("Checking if questions exist...");
     const existing = await getQuestions();
+    console.log(`Found ${existing.length} existing questions`);
+
     if (existing.length === 0) {
       console.log("No questions found, auto-syncing defaults...");
       await migrateDefaultData(defaultData, true);
-      return await getQuestions();
+      const freshQuestions = await getQuestions();
+      console.log(`After sync, now have ${freshQuestions.length} questions`);
+      return freshQuestions;
     }
     return existing;
   } catch (error) {

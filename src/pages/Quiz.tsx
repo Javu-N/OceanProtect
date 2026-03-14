@@ -20,13 +20,19 @@ export default function Quiz() {
     const [selectedQuizIndex, setSelectedQuizIndex] = useState<number | null>(null);
     const [timeLeft, setTimeLeft] = useState(30);
     const [showResult, setShowResult] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState('');
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const TIME_LIMIT = 30;
 
     useEffect(() => {
         const loadQuestions = async () => {
             try {
+                setIsLoading(true);
+                setError('');
+                console.log("Loading questions...");
                 const questions = await ensureQuestionsExist(defaultQuizData);
+                console.log("Loaded questions:", questions?.length || 0);
                 setQuizData(
                     questions && questions.length > 0
                         ? questions
@@ -34,7 +40,10 @@ export default function Quiz() {
                 );
             } catch (error) {
                 console.error('Error loading questions:', error);
+                setError('Lỗi tải câu hỏi, sử dụng dữ liệu mẫu');
                 setQuizData(defaultQuizData.map((q) => ({ ...q, id: q.id.toString() })));
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -97,10 +106,45 @@ export default function Quiz() {
         setShowResult(false);
     };
 
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="text-center">
+                    <p className="text-gray-500 mb-4">Đang tải câu hỏi...</p>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto"></div>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="text-center">
+                    <p className="text-red-500 mb-4">{error}</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="bg-green-500 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-600"
+                    >
+                        Tải lại trang
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     if (quizData.length === 0) {
         return (
             <div className="flex items-center justify-center min-h-screen">
-                <p className="text-gray-500">Đang tải câu hỏi...</p>
+                <div className="text-center">
+                    <p className="text-gray-500 mb-4">Không có câu hỏi nào. Vui lòng thử lại sau.</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="bg-green-500 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-600"
+                    >
+                        Tải lại trang
+                    </button>
+                </div>
             </div>
         );
     }
