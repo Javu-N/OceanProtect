@@ -1,214 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OceanGuard | Bảo Vệ Hệ Sinh Thái Biển</title>
-    <!-- Tailwind CSS 4 CDN -->
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        @theme {
-            --color-primary-green: #22c55e;
-            --color-primary-orange: #f97316;
-        }
-    </style>
 </head>
+
 <body class="bg-white text-gray-900">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+</body>
+</p>
+<a href="#problems"
+    class="bg-primary-green hover:bg-green-600 text-white px-8 py-4 rounded-full text-lg font-bold transition-all transform hover:scale-105 inline-block shadow-xl">
+    Tìm hiểu cách giúp đỡ 🐠
+</a>
+</div>
+</section>
 
-    <!-- Sticky Navbar -->
-    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20 items-center">
-                <div class="flex items-center space-x-2">
-                    <span class="text-3xl">🌊</span>
-                    <span class="text-2xl font-bold tracking-tight text-primary-green">OceanGuard</span>
-                </div>
-                <div class="hidden md:flex space-x-8 font-medium">
-                    <a href="index.html#home" class="hover:text-primary-green transition-colors">Trang chủ</a>
-                    <a href="index.html#problems" class="hover:text-primary-green transition-colors">Vấn đề đại dương</a>
-                    <a href="quiz.html" class="hover:text-primary-green transition-colors">Trò chơi Quiz</a>
-                    <a href="admin.html" class="hover:text-primary-green transition-colors">Quản lý câu hỏi</a>
-                    <a href="index.html#contact" class="hover:text-primary-green transition-colors">Liên hệ</a>
-                </div>
-                <div class="md:hidden text-2xl cursor-pointer">🍔</div>
-            </div>
+<!-- Ocean Problems Section -->
+<section id="problems" class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">Các mối đe dọa chính</h2>
+            <div class="h-1 w-20 bg-primary-orange mx-auto"></div>
         </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="relative h-[90vh] flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <img src="https://png.pngtree.com/background/20230401/original/pngtree-coral-reef-sea-turtle-beautiful-ocean-cartoon-background-picture-image_2253111.jpg" alt="Beautiful Ocean" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-black/40"></div>
-        </div>
-        <div class="relative z-10 text-center px-4 max-w-4xl">
-            <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">Bảo Vệ Đại Dương</h1>
-            <p class="text-xl md:text-2xl text-white/90 mb-10 font-light">
-                Đại dương là nguồn sống của hành tinh chúng ta. Hãy cùng nhau chống lại ô nhiễm biển và bảo tồn hành tinh xanh cho thế hệ mai sau.
-            </p>
-            <a href="#problems" class="bg-primary-green hover:bg-green-600 text-white px-8 py-4 rounded-full text-lg font-bold transition-all transform hover:scale-105 inline-block shadow-xl">
-                Tìm hiểu cách giúp đỡ 🐠
-            </a>
-        </div>
-    </section>
-
-    <!-- Ocean Problems Section -->
-    <section id="problems" class="py-24 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Các mối đe dọa chính</h2>
-                <div class="h-1 w-20 bg-primary-orange mx-auto"></div>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Plastic Pollution -->
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
-                    <img src="https://images.unsplash.com/photo-1621451537084-482c73073a0f?auto=format&fit=crop&q=80&w=800" alt="Ô nhiễm nhựa" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-3 text-primary-green">Ô nhiễm nhựa</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            Hơn 8 triệu tấn nhựa đổ vào đại dương mỗi năm, tàn phá sinh vật biển và hệ sinh thái.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Oil Spills -->
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
-                    <img src="https://images.unsplash.com/photo-1620206343767-7da98185edd4?auto=format&fit=crop&q=80&w=800" alt="Tràn dầu" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-3 text-primary-green">Tràn dầu</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            Các vụ tràn dầu giải phóng hóa chất độc hại làm ngạt thở sinh vật biển và phá hủy môi trường sống ven biển.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Overfishing -->
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
-                    <img src="https://cdn1.tuoitre.vn/thumb_w/1200/2021/11/21/merlin151396335285c7898-5cc8-49a9-8883-31bf58687dc8-superjumbo-16374837260211579844905-crop-1637484070303273371792.jpeg" alt="Đánh bắt quá mức" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-3 text-primary-green">Đánh bắt quá mức</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            Đánh bắt công nghiệp làm cạn kiệt nguồn cá nhanh hơn khả năng phục hồi, làm đảo lộn chuỗi thức ăn.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Climate Change -->
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
-                    <img src="https://images.unsplash.com/photo-1484291470158-b8f8d608850d?auto=format&fit=crop&q=80&w=800" alt="Biến đổi khí hậu" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-3 text-primary-green">Biến đổi khí hậu</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            Nhiệt độ tăng gây ra axit hóa đại dương và tẩy trắng san hô, đe dọa những môi trường sống đa dạng nhất.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Interactive Image Gallery Quiz -->
-    <section id="quiz" class="py-24">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
-                <div>
-                    <h2 class="text-4xl font-bold text-gray-900 mb-4">Thư viện Quiz</h2>
-                    <p class="text-gray-600 max-w-xl">Nhấp vào các hình ảnh bên dưới để kiểm tra kiến thức của bạn về bảo vệ đại dương. Mỗi câu trả lời đúng sẽ giúp bạn học hỏi thêm!</p>
-                </div>
-                <div class="mt-6 md:mt-0 bg-primary-green/10 px-6 py-3 rounded-xl border border-primary-green/20">
-                    <span class="text-sm uppercase tracking-wider font-bold text-primary-green">Điểm của bạn</span>
-                    <div class="text-3xl font-bold text-primary-green" id="current-score">0</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Plastic Pollution -->
+            <div
+                class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
+                <img src="https://images.unsplash.com/photo-1621451537084-482c73073a0f?auto=format&fit=crop&q=80&w=800"
+                    alt="Ô nhiễm nhựa" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-3 text-primary-green">Ô nhiễm nhựa</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Hơn 8 triệu tấn nhựa đổ vào đại dương mỗi năm, tàn phá sinh vật biển và hệ sinh thái.
+                    </p>
                 </div>
             </div>
 
-            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- JS will populate this -->
-            </div>
-            <div class="text-center mt-12">
-                <a href="quiz.html" class="inline-block bg-primary-orange hover:bg-orange-600 text-white px-8 py-3 rounded-full font-bold transition-all transform hover:scale-105">
-                    Chơi Quiz đầy đủ 🎮
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Call To Action Section -->
-    <section class="py-24 bg-primary-green text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-4xl font-bold mb-8">Hành động ngay hôm nay 🌍</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-                <div class="space-y-4">
-                    <div class="text-4xl">♻️</div>
-                    <h3 class="text-xl font-bold">Giảm thiểu nhựa</h3>
-                    <p class="text-white/80">Nói không với nhựa dùng một lần và chọn các giải pháp thay thế bền vững.</p>
-                </div>
-                <div class="space-y-4">
-                    <div class="text-4xl">🧹</div>
-                    <h3 class="text-xl font-bold">Dọn dẹp bãi biển</h3>
-                    <p class="text-white/80">Tham gia các sáng kiến địa phương để dọn rác khỏi bờ biển của chúng ta.</p>
-                </div>
-                <div class="space-y-4">
-                    <div class="text-4xl">🤝</div>
-                    <h3 class="text-xl font-bold">Hỗ trợ các tổ chức</h3>
-                    <p class="text-white/80">Quyên góp hoặc tình nguyện cho các tổ chức chuyên bảo tồn biển.</p>
+            <!-- Oil Spills -->
+            <div
+                class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
+                <img src="https://images.unsplash.com/photo-1620206343767-7da98185edd4?auto=format&fit=crop&q=80&w=800"
+                    alt="Tràn dầu" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-3 text-primary-green">Tràn dầu</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Các vụ tràn dầu giải phóng hóa chất độc hại làm ngạt thở sinh vật biển và phá hủy môi trường
+                        sống ven biển.
+                    </p>
                 </div>
             </div>
-            <button class="bg-white text-primary-green px-10 py-4 rounded-full text-lg font-bold hover:bg-gray-100 transition-all shadow-xl">
-                Tham gia phong trào
-            </button>
-        </div>
-    </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-24 bg-white">
-        <div class="max-w-3xl mx-auto px-4 text-center">
-            <h2 class="text-4xl font-bold mb-8">Liên hệ với chúng tôi 📧</h2>
-            <p class="text-gray-600 mb-12">Bạn có thắc mắc hoặc muốn hợp tác với chúng tôi? Hãy liên hệ và cùng nhau cứu đại dương.</p>
-            <form class="space-y-4">
-                <input type="email" placeholder="Email của bạn" class="w-full p-4 rounded-xl border border-gray-200 focus:border-primary-green focus:ring-2 focus:ring-primary-green/20 outline-none transition-all">
-                <textarea placeholder="Tin nhắn của bạn" rows="4" class="w-full p-4 rounded-xl border border-gray-200 focus:border-primary-green focus:ring-2 focus:ring-primary-green/20 outline-none transition-all"></textarea>
-                <button type="submit" class="w-full bg-primary-orange hover:bg-orange-600 text-white py-4 rounded-xl font-bold transition-colors">
-                    Gửi tin nhắn
-                </button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0">
-                <div class="flex items-center space-x-2">
-                    <span class="text-3xl">🌊</span>
-                    <span class="text-2xl font-bold tracking-tight text-primary-green">OceanGuard</span>
-                </div>
-                <div class="flex space-x-6 text-2xl">
-                    <a href="#" class="hover:text-primary-green transition-colors">🐦</a>
-                    <a href="#" class="hover:text-primary-green transition-colors">📸</a>
-                    <a href="#" class="hover:text-primary-green transition-colors">📘</a>
-                </div>
-                <div class="text-gray-400 text-sm">
-                    <p>hello@oceanguard.org</p>
-                    <p class="mt-2">&copy; 2026 OceanGuard. Bảo lưu mọi quyền. 🐚</p>
+            <!-- Overfishing -->
+            <div
+                class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
+                <img src="https://cdn1.tuoitre.vn/thumb_w/1200/2021/11/21/merlin151396335285c7898-5cc8-49a9-8883-31bf58687dc8-superjumbo-16374837260211579844905-crop-1637484070303273371792.jpeg"
+                    alt="Đánh bắt quá mức" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-3 text-primary-green">Đánh bắt quá mức</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Đánh bắt công nghiệp làm cạn kiệt nguồn cá nhanh hơn khả năng phục hồi, làm đảo lộn chuỗi thức
+                        ăn.
+                    </p>
                 </div>
             </div>
-        </div>
-    </footer>
 
-    <!-- Quiz Modal -->
-    <div id="quiz-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-8 shadow-2xl relative animate-in fade-in zoom-in duration-300">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl">✕</button>
-            <div id="modal-content">
-                <!-- JS will populate this -->
+            <!-- Climate Change -->
+            <div
+                class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
+                <img src="https://images.unsplash.com/photo-1484291470158-b8f8d608850d?auto=format&fit=crop&q=80&w=800"
+                    alt="Biến đổi khí hậu" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-3 text-primary-green">Biến đổi khí hậu</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Nhiệt độ tăng gây ra axit hóa đại dương và tẩy trắng san hô, đe dọa những môi trường sống đa
+                        dạng nhất.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
+</section>
 
-    <script type="module" src="src/quiz.ts"></script>
+<!-- Interactive Image Gallery Quiz -->
+<section id="quiz" class="py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+            <div>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Thư viện Quiz</h2>
+                <p class="text-gray-600 max-w-xl">Nhấp vào các hình ảnh bên dưới để kiểm tra kiến thức của bạn về bảo vệ
+                    đại dương. Mỗi câu trả lời đúng sẽ giúp bạn học hỏi thêm!</p>
+            </div>
+            <div class="mt-6 md:mt-0 bg-primary-green/10 px-6 py-3 rounded-xl border border-primary-green/20">
+                <span class="text-sm uppercase tracking-wider font-bold text-primary-green">Điểm của bạn</span>
+                <div class="text-3xl font-bold text-primary-green" id="current-score">0</div>
+            </div>
+        </div>
+
+        <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- JS will populate this -->
+        </div>
+        <div class="text-center mt-12">
+            <a href="quiz.html"
+                class="inline-block bg-primary-orange hover:bg-orange-600 text-white px-8 py-3 rounded-full font-bold transition-all transform hover:scale-105">
+                Chơi Quiz đầy đủ 🎮
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Call To Action Section -->
+<section class="py-24 bg-primary-green text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-4xl font-bold mb-8">Hành động ngay hôm nay 🌍</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+            <div class="space-y-4">
+                <div class="text-4xl">♻️</div>
+                <h3 class="text-xl font-bold">Giảm thiểu nhựa</h3>
+                <p class="text-white/80">Nói không với nhựa dùng một lần và chọn các giải pháp thay thế bền vững.</p>
+            </div>
+            <div class="space-y-4">
+                <div class="text-4xl">🧹</div>
+                <h3 class="text-xl font-bold">Dọn dẹp bãi biển</h3>
+                <p class="text-white/80">Tham gia các sáng kiến địa phương để dọn rác khỏi bờ biển của chúng ta.</p>
+            </div>
+            <div class="space-y-4">
+                <div class="text-4xl">🤝</div>
+                <h3 class="text-xl font-bold">Hỗ trợ các tổ chức</h3>
+                <p class="text-white/80">Quyên góp hoặc tình nguyện cho các tổ chức chuyên bảo tồn biển.</p>
+            </div>
+        </div>
+        <button
+            class="bg-white text-primary-green px-10 py-4 rounded-full text-lg font-bold hover:bg-gray-100 transition-all shadow-xl">
+            Tham gia phong trào
+        </button>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-24 bg-white">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+        <h2 class="text-4xl font-bold mb-8">Liên hệ với chúng tôi 📧</h2>
+        <p class="text-gray-600 mb-12">Bạn có thắc mắc hoặc muốn hợp tác với chúng tôi? Hãy liên hệ và cùng nhau cứu đại
+            dương.</p>
+        <form class="space-y-4">
+            <input type="email" placeholder="Email của bạn"
+                class="w-full p-4 rounded-xl border border-gray-200 focus:border-primary-green focus:ring-2 focus:ring-primary-green/20 outline-none transition-all">
+            <textarea placeholder="Tin nhắn của bạn" rows="4"
+                class="w-full p-4 rounded-xl border border-gray-200 focus:border-primary-green focus:ring-2 focus:ring-primary-green/20 outline-none transition-all"></textarea>
+            <button type="submit"
+                class="w-full bg-primary-orange hover:bg-orange-600 text-white py-4 rounded-xl font-bold transition-colors">
+                Gửi tin nhắn
+            </button>
+        </form>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0">
+            <div class="flex items-center space-x-2">
+                <span class="text-3xl">🌊</span>
+                <span class="text-2xl font-bold tracking-tight text-primary-green">OceanGuard</span>
+            </div>
+            <div class="flex space-x-6 text-2xl">
+                <a href="#" class="hover:text-primary-green transition-colors">🐦</a>
+                <a href="#" class="hover:text-primary-green transition-colors">📸</a>
+                <a href="#" class="hover:text-primary-green transition-colors">📘</a>
+            </div>
+            <div class="text-gray-400 text-sm">
+                <p>hello@oceanguard.org</p>
+                <p class="mt-2">&copy; 2026 OceanGuard. Bảo lưu mọi quyền. 🐚</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Quiz Modal -->
+<div id="quiz-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-8 shadow-2xl relative animate-in fade-in zoom-in duration-300">
+        <button onclick="closeModal()"
+            class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl">✕</button>
+        <div id="modal-content">
+            <!-- JS will populate this -->
+        </div>
+    </div>
+</div>
+
+<script type="module" src="src/quiz.ts"></script>
 </body>
+
 </html>
